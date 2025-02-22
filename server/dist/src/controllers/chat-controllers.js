@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteChats = exports.sendChatsToUser = exports.generateChatCompletion = void 0;
 const User_js_1 = __importDefault(require("../models/User.js"));
-const ai_service_js_1 = require("../services/ai.service.js"); // Import AI service
+const ai_service_1 = require("../services/ai.service"); // Import AI service correctly
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const generateChatCompletion = async (req, res, next) => {
@@ -18,7 +18,7 @@ const generateChatCompletion = async (req, res, next) => {
                 .json({ message: "User not registered OR Token malfunctioned" });
         }
         user.chats.push({ content: message, role: "user" });
-        const chatMessage = await (0, ai_service_js_1.generateAIResponse)(message); // Call AI service
+        const chatMessage = await (0, ai_service_1.generateContent)(message); // Call AI service
         if (!chatMessage) {
             return res.status(500).json({ message: "AI response was invalid" });
         }
@@ -58,7 +58,7 @@ const deleteChats = async (req, res, next) => {
         if (user._id.toString() !== res.locals.jwtData.id) {
             return res.status(401).send("Permissions didn't match");
         }
-        user.chats.splice(0, user.chats.length);
+        user.chats.splice(0, user.chats.length); // Clear chat history
         await user.save();
         return res.status(200).json({ message: "OK" });
     }

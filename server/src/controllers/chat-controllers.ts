@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../models/User.js";
-import { generateAIResponse } from "../services/ai.service.js"; // Import AI service
+import { generateContent } from "../services/ai.service"; // Import AI service correctly
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -21,8 +21,8 @@ export const generateChatCompletion = async (
     }
 
     user.chats.push({ content: message, role: "user" });
-    
-    const chatMessage = await generateAIResponse(message); // Call AI service
+
+    const chatMessage = await generateContent(message); // Call AI service
     if (!chatMessage) {
       return res.status(500).json({ message: "AI response was invalid" });
     }
@@ -69,7 +69,7 @@ export const deleteChats = async (
     if (user._id.toString() !== res.locals.jwtData.id) {
       return res.status(401).send("Permissions didn't match");
     }
-    user.chats.splice(0, user.chats.length);
+    user.chats.splice(0, user.chats.length); // Clear chat history
     await user.save();
     return res.status(200).json({ message: "OK" });
   } catch (error) {
