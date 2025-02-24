@@ -21,6 +21,7 @@ function Login() {
       toast.loading("Signing In", { id: "login" });
       await auth?.login(email, password);
       toast.success("Signed In Successfully", { id: "login" });
+      navigate("/"); // Navigate after successful login
     } catch (error) {
       console.log(error);
       toast.error("Signing In Failed", { id: "login" });
@@ -28,10 +29,10 @@ function Login() {
   };
 
   useEffect(() => {
-    if (auth?.user) {
+    if (auth?.isLoggedIn) {
       navigate("/");
     }
-  }, [auth, navigate]);
+  }, [auth?.isLoggedIn, navigate]);
 
   return (
     <div className="max-w-md w-full mx-auto my-20 rounded-2xl md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">

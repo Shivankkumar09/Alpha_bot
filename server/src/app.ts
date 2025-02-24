@@ -8,7 +8,7 @@ config();
 const app = express();
 
 //middlewares
-app.use(cors({ origin: ["https://alpha-bot-virid.vercel.app"],
+app.use(cors({ origin: "https://alpha-bot-virid.vercel.app",
  credentials: true }));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
