@@ -8,7 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ChatProvider } from "./context/ChatContext";
 
 // Setup Axios
-axios.defaults.baseURL = "http://localhost:3000/api/v1";
+axios.defaults.baseURL = "https://alpha-bot-fn74.onrender.com/api/v1";
 axios.defaults.withCredentials = true;
 
 // Main Application Render
