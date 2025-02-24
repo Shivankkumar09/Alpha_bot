@@ -46,16 +46,13 @@ const Header = () => {
                         className="object-cover h-full w-full"
                     />
                 </div>
-                <span className="text-2xl  font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-purple-400  relative">
+                <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-purple-400 relative">
                     Alphabot
                 </span>
             </Link>
 
             {/* Right Section */}
             <div className="flex items-center gap-4 md:gap-5 flex-shrink-0">
-                {/* Delete Button (Only on /chat page for small screens) */}
-               
-
                 {/* User Initials (Only if Logged In) */}
                 {auth?.user?.name && (
                     <div className="h-10 w-10 rounded-full bg-gray-200 text-black flex items-center justify-center text-lg font-bold">
@@ -63,10 +60,11 @@ const Header = () => {
                     </div>
                 )}
 
+                {/* Delete Button (Only on /chat page for small screens) */}
                 {isChatPage && auth?.isLoggedIn && handleDeleteChats && (
                     <button
                         onClick={handleDeleteChats}
-                        className="text-red-500 text-2xl cursor-pointer"
+                        className="text-red-500 text-2xl cursor-pointer md:hidden" // Hide on medium and larger screens
                     >
                         <AiOutlineDelete />
                     </button>

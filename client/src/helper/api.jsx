@@ -5,7 +5,8 @@ export const loginUser = async (email, password) => {
   if (res.status !== 200) {
     throw new Error("Unable to login");
   }
-  return res.data;
+  const data = res.data;
+  return data;
 };
 
 export const signupUser = async (name, email, password) => {
@@ -13,7 +14,8 @@ export const signupUser = async (name, email, password) => {
   if (res.status !== 201) {
     throw new Error("Unable to Signup");
   }
-  return res.data;
+  const data = res.data;
+  return data;
 };
 
 export const checkAuthStatus = async () => {
@@ -21,7 +23,8 @@ export const checkAuthStatus = async () => {
   if (res.status !== 200) {
     throw new Error("Unable to authenticate");
   }
-  return res.data;
+  const data = res.data;
+  return data;
 };
 
 export const sendChatRequest = async (message) => {
@@ -29,7 +32,8 @@ export const sendChatRequest = async (message) => {
   if (res.status !== 200) {
     throw new Error("Unable to send chat");
   }
-  return res.data;
+  const data = res.data;
+  return data;
 };
 
 export const getUserChats = async () => {
@@ -37,7 +41,8 @@ export const getUserChats = async () => {
   if (res.status !== 200) {
     throw new Error("Unable to send chat");
   }
-  return res.data;
+  const data = res.data;
+  return data;
 };
 
 export const deleteUserChats = async () => {
@@ -45,7 +50,8 @@ export const deleteUserChats = async () => {
   if (res.status !== 200) {
     throw new Error("Unable to delete chats");
   }
-  return res.data;
+  const data = res.data;
+  return data;
 };
 
 export const logoutUser = async () => {
@@ -53,5 +59,6 @@ export const logoutUser = async () => {
   if (res.status !== 200) {
     throw new Error("Unable to delete chats");
   }
-  return res.data;
+  const data = res.data;
+  return data;
 };
