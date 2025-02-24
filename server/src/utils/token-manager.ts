@@ -1,12 +1,23 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { COOKIE_NAME } from "./constants.js";
+import dotenv from "dotenv";
 
-export const createToken = (id: string, email: string, expiresIn: string) => {
+dotenv.config();
+
+
+export const createToken = (id: string, email: string, expiresIn: string | number) => {
   const payload = { id, email };
-  const token = jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn,
-  });
+
+  // Ensure JWT_SECRET is defined and is a string
+  const secret = process.env.JWT_SECRET as Secret;
+
+  // Define sign options explicitly
+  const options: SignOptions = {
+    expiresIn: expiresIn as any,
+  };
+
+  const token = jwt.sign(payload, secret, options);
   return token;
 };
 
