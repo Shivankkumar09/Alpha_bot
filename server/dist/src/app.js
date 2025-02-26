@@ -12,7 +12,8 @@ const cors_1 = __importDefault(require("cors"));
 (0, dotenv_1.config)();
 const app = (0, express_1.default)();
 //middlewares
-app.use((0, cors_1.default)({ origin: "http://localhost:5173", credentials: true }));
+app.use((0, cors_1.default)({ origin: "https://alpha-bot-virid.vercel.app",
+    credentials: true }));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)(process.env.COOKIE_SECRET));
 //remove it in production

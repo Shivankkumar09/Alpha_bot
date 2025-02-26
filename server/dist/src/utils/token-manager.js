@@ -10,33 +10,26 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const createToken = (id, email, expiresIn) => {
     const payload = { id, email };
-    // Ensure JWT_SECRET is defined and is a string
     const secret = process.env.JWT_SECRET;
-    // Define sign options explicitly
-    const options = {
-        expiresIn: expiresIn,
-    };
+    const options = { expiresIn: expiresIn };
     const token = jsonwebtoken_1.default.sign(payload, secret, options);
+    console.log("Created Token:", token); // Log the token for debugging
     return token;
 };
 exports.createToken = createToken;
 const verifyToken = async (req, res, next) => {
-    const token = req.signedCookies[`${constants_js_1.COOKIE_NAME}`];
+    const token = req.signedCookies[constants_js_1.COOKIE_NAME];
     if (!token || token.trim() === "") {
         return res.status(401).json({ message: "Token Not Received" });
     }
-    return new Promise((resolve, reject) => {
-        return jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, success) => {
-            if (err) {
-                reject(err.message);
-                return res.status(401).json({ message: "Token Expired" });
-            }
-            else {
-                resolve();
-                res.locals.jwtData = success;
-                return next();
-            }
-        });
+    jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, success) => {
+        if (err) {
+            return res.status(401).json({ message: "Token Expired or Invalid" });
+        }
+        else {
+            res.locals.jwtData = success;
+            return next();
+        }
     });
 };
 exports.verifyToken = verifyToken;
