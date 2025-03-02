@@ -10,7 +10,7 @@ const app = express();
 //middlewares
 app.use(
     cors({
-      origin: "https://alpha-bot-five.vercel.app", // Ensure it's exactly this
+      origin: "https://alpha-bot-five.vercel.app", // Ensure it's exactly this https://alpha-bot-five.vercel.app
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
@@ -22,8 +22,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 
 
-//remove it in production
-app.use(morgan("dev"));
+
 
 app.use("/api/v1", appRouter);
 
