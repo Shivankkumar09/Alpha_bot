@@ -11,6 +11,7 @@ import { ChatProvider } from "./context/ChatContext";
 axios.defaults.baseURL = "https://alpha-bot-fn74.onrender.com/api/v1";
 axios.defaults.withCredentials = true;
 
+
 // Main Application Render
 const rootElement = document.getElementById("root");
 if (!rootElement) {
