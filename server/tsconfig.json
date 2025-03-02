@@ -5,9 +5,15 @@
     "target": "ES2022",
     "sourceMap": true,
     "outDir": "dist",
+    "rootDir": "./", 
     "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
     "types": ["node"]
   },
   "include": ["src/**/*.ts", "index.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

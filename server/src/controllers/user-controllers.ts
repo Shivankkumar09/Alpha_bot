@@ -12,7 +12,7 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
     return res.status(200).json({ message: "OK", users });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause:(error as Error).message });
   }
 };
 
@@ -43,7 +43,7 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
     return res.status(201).json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: (error as Error).message });
   }
 };
 
@@ -73,7 +73,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
     return res.status(200).json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause:(error as Error).message });
   }
 };
 
@@ -89,7 +89,7 @@ export const verifyUser = async (req: Request, res: Response, next: NextFunction
     return res.status(200).json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: (error as Error).message });
   }
 };
 
@@ -110,6 +110,6 @@ export const userLogout = async (req: Request, res: Response, next: NextFunction
     return res.status(200).json({ message: "OK", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: (error as Error).message });
   }
 };

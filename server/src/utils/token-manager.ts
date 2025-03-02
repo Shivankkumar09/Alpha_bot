@@ -20,7 +20,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
     return res.status(401).json({ message: "Token Not Received" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET as Secret, (err, success) => {
+  jwt.verify(token, process.env.JWT_SECRET as Secret, (err:any, success:any) => {
     if (err) {
       return res.status(401).json({ message: "Token Expired or Invalid" });
     } else {

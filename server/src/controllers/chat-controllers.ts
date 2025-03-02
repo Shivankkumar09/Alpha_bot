@@ -32,7 +32,7 @@ export const generateChatCompletion = async (
     return res.status(200).json({ chats: user.chats });
   } catch (error) {
     console.error("Error in generateChatCompletion:", error);
-    return res.status(500).json({ message: "Something went wrong", error: error.message });
+    return res.status(500).json({ message: "Something went wrong", error: (error as Error).message });
   }
 };
 
@@ -52,7 +52,7 @@ export const sendChatsToUser = async (
     return res.status(200).json({ message: "OK", chats: user.chats });
   } catch (error) {
     console.error("Error in sendChatsToUser:", error);
-    return res.status(500).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause:(error as Error).message });
   }
 };
 
@@ -74,6 +74,6 @@ export const deleteChats = async (
     return res.status(200).json({ message: "OK" });
   } catch (error) {
     console.error("Error in deleteChats:", error);
-    return res.status(500).json({ message: "ERROR", cause: error.message });
+    return res.status(500).json({ message: "ERROR", cause: (error as Error).message });
   }
 };
