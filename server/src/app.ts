@@ -10,7 +10,7 @@ const app = express();
 //middlewares
 app.use(
     cors({
-      origin: "https://alpha-bot-virid.vercel.app", // Ensure it's exactly this
+      origin: "https://alpha-bot-five.vercel.app", // Ensure it's exactly this
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
