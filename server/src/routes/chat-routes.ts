@@ -7,14 +7,10 @@ import {
   sendChatsToUser,
 } from "../controllers/chat-controllers.js";
 
-//Protected API
 const chatRoutes = Router();
-chatRoutes.post(
-  "/new",
-  validate(chatCompletionValidator),
-  verifyToken,
-  generateChatCompletion
-);
+
+// Ensure `verifyToken` runs **before** `validate` for security
+chatRoutes.post("/new", verifyToken, validate(chatCompletionValidator), generateChatCompletion);
 chatRoutes.get("/all-chats", verifyToken, sendChatsToUser);
 chatRoutes.delete("/delete", verifyToken, deleteChats);
 

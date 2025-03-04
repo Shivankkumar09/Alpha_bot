@@ -4,30 +4,35 @@ import morgan from "morgan";
 import appRouter from "./routes/index.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-config();
+import helmet from "helmet";  // Security headers
+ // Compress responses
+
+config(); // Load env variables early
+
 const app = express();
 
-//middlewares
+// Security & Performance Middlewares
+app.use(helmet());
+
+
+// CORS Configuration (Allows frontend to communicate with backend)
 app.use(
-    cors({
-      origin: "https://alpha-bot-five.vercel.app", // Ensure it's exactly this https://alpha-bot-five.vercel.app
-      credentials: true,
-      methods: ["GET", "POST", "PUT", "DELETE"],
-      allowedHeaders: ["Content-Type", "Authorization"],
-    })
-  );
+  cors({
+    origin: "https://alpha-bot-five.vercel.app", // Ensure frontend URL matches
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-
-
-
-
+// Routes
 app.use("/api/v1", appRouter);
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-    });
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 export default app;

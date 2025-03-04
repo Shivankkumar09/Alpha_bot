@@ -1,14 +1,16 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const apiKey = process.env.GEMINI_API_KEY;
 if (!apiKey) {
   throw new Error("GEMINI_API_KEY is not defined in the environment variables.");
 }
+
 const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({ 
-  model: "gemini-2.0-flash", 
+  model: "gemini-1.5-flash", // Ensure latest compatible model is used
   systemInstruction: `  
   You are **Alpha Bot**, an advanced AI chatbot designed to provide **precise, insightful, and well-structured responses** to users.  
   Your role is to assist with **technical queries, coding, debugging, AI, and problem-solving** using **best practices** and the latest knowledge.  
@@ -30,18 +32,25 @@ const model = genAI.getGenerativeModel({
   `
 });
 
+/**
+ * Generates an AI response from Gemini API.
+ * @param prompt - User input prompt.
+ * @returns {Promise<string>} - AI-generated response.
+ */
 export async function generateContent(prompt: string): Promise<string> {
   try {
     const result = await model.generateContent({
       contents: [{ role: "user", parts: [{ text: prompt }] }]
     });
 
-    const responseText = result.response?.candidates?.[0]?.content?.parts?.[0]?.text || 
-                         "I'm not sure how to respond.";
-    
+    // Ensuring correct response parsing
+    const responseText =
+      result?.response?.candidates?.[0]?.content?.parts?.[0]?.text || 
+      "I'm not sure how to respond. Please try again.";
+
     return responseText;
   } catch (error) {
-    console.error("Error generating AI response:", error);
-    return "Sorry, something went wrong. Please try again.";
+    console.error("🔴 Error generating AI response:", error);
+    return "Sorry, something went wrong while generating a response. Please try again.";
   }
 }
