@@ -34,7 +34,7 @@
     "@types/express-validator": "^2.20.33",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/morgan": "^1.9.9",
-    "@types/node": "^22.13.9",
+    "@types/node": "^22.13.14",
     "typescript": "^5.8.2"
   }
 }
