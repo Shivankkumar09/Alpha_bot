@@ -4,11 +4,11 @@ import { hash, compare } from "bcrypt";
 import { createToken } from "../utils/token-manager.js";
 import { COOKIE_NAME } from "../utils/constants.js";
 
-const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || "alpha-bot-five.vercel.app";
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || "localhost";
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await User.find().select("-password"); // Exclude passwords
+    const users = await User.find().select("-password");
     return res.status(200).json({ message: "Users fetched successfully", users });
   } catch (error) {
     console.error("❌ Error in getAllUsers:", error);
@@ -39,9 +39,8 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
       domain: COOKIE_DOMAIN,
       httpOnly: true,
       signed: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(201).json({ message: "User registered successfully", user: { name: user.name, email: user.email } });
@@ -75,8 +74,7 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
       domain: COOKIE_DOMAIN,
       httpOnly: true,
       signed: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -108,8 +106,7 @@ export const userLogout = async (req: Request, res: Response, next: NextFunction
       domain: COOKIE_DOMAIN,
       httpOnly: true,
       signed: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: "lax",
     });
 
     return res.status(200).json({ message: "Logout successful" });

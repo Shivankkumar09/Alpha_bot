@@ -16,6 +16,7 @@ const Header = () => {
 
     const { handleDeleteChats } = useChat() || {}; // Avoid destructuring error, provide default
 
+
     const handleLogout = () => {
         auth?.logout?.(); // Logs the user out
         localStorage.removeItem("token"); // Remove token from storage
@@ -34,6 +35,7 @@ const Header = () => {
         }
         return "";
     };
+
 
     return (
         <div className="bg-zinc-800 h-20 w-screen flex justify-between items-center px-4 md:px-7 overflow-hidden relative z-50">

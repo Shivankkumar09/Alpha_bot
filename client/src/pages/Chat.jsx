@@ -135,7 +135,7 @@ const Chat = () => {
         </div>
         <div className="flex-1 w-full md:w-[78.5vw] rounded-lg bg-zinc-800 flex flex-col relative z-20">
           <div
-            className="flex-grow overflow-y-auto p-3 pb-3 relative z-30"
+            className="flex-grow overflow-y-auto p-3 pb-3 relative z-30 scrollbar-hide"
             ref={chatContainerRef}
           >
             {chatMessages.length > 0 ? (
@@ -159,22 +159,28 @@ const Chat = () => {
             )}
           </div>
           <div className="p-3 relative z-40 flex items-center gap-3">
-            <input
-              type="text"
-              ref={inputRef}
-              placeholder="Type a message..."
-              className="flex-grow p-2 rounded-lg bg-zinc-700 text-white focus:outline-none"
-              disabled={loading}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault(); // Prevents newline in input
-                  onSubmit(e);
-                }
-              }}
-            />
+          <textarea
+  ref={inputRef}
+  placeholder="Type a message..."
+  className="flex-grow p-2 rounded-lg bg-zinc-700 text-white focus:outline-none resize-none max-h-40 min-h-10 overflow-y-auto"
+  disabled={loading}
+  rows="1"
+  onInput={(e) => {
+    e.target.style.height = "auto"; // Reset height to auto
+    e.target.style.height = `${e.target.scrollHeight}px`; // Adjust height dynamically
+  }}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // Prevents newline in input
+      onSubmit(e);
+      e.target.style.height = "auto"; // Reset height after submitting
+    }
+  }}
+/>
+
             <button
               onClick={onSubmit}
-              className="px-4 py-2 bg-zinc-700 text-white rounded-lg flex items-center justify-center min-w-[80px]"
+              className="px-4 py-2 bg-zinc-900 text-white rounded-lg flex items-center justify-center min-w-[80px]"
               disabled={loading}
             >
               {loading ? <ScaleLoader height={20} color="white" /> : "Send"}

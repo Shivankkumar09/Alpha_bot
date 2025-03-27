@@ -8,10 +8,10 @@ const User_js_1 = __importDefault(require("../models/User.js"));
 const bcrypt_1 = require("bcrypt");
 const token_manager_js_1 = require("../utils/token-manager.js");
 const constants_js_1 = require("../utils/constants.js");
-const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || "alpha-bot-five.vercel.app";
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || "localhost";
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await User_js_1.default.find().select("-password"); // Exclude passwords
+        const users = await User_js_1.default.find().select("-password");
         return res.status(200).json({ message: "Users fetched successfully", users });
     }
     catch (error) {
@@ -39,9 +39,8 @@ const userSignup = async (req, res, next) => {
             domain: COOKIE_DOMAIN,
             httpOnly: true,
             signed: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "none",
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         return res.status(201).json({ message: "User registered successfully", user: { name: user.name, email: user.email } });
     }
@@ -71,8 +70,7 @@ const userLogin = async (req, res, next) => {
             domain: COOKIE_DOMAIN,
             httpOnly: true,
             signed: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "none",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         return res.status(200).json({ message: "Login successful", user: { name: user.name, email: user.email } });
@@ -104,8 +102,7 @@ const userLogout = async (req, res, next) => {
             domain: COOKIE_DOMAIN,
             httpOnly: true,
             signed: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "none",
+            sameSite: "lax",
         });
         return res.status(200).json({ message: "Logout successful" });
     }

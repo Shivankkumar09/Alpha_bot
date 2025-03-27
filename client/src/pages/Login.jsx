@@ -37,8 +37,8 @@ function Login() {
   return (
     <div className="max-w-md w-full mx-auto my-20 rounded-2xl md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-        Welcome to <span className="bg-gradient-to-r from-cyan-500 to-indigo-500 text-transparent bg-clip-text font-extrabold">Alpha-Bot</span>
-      </h2>
+        Welcome to <span className="bg-gradient-to-r from-cyan-500 to-indigo-500 text-transparent bg-clip-text font-extrabold cursor-pointer"><Link to="/">Alpha-Bot</Link></span>
+        </h2>
 
       <form className="my-8" onSubmit={handleSubmit}>
         <LabelInputContainer className="mb-4">
