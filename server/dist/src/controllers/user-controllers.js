@@ -8,107 +8,99 @@ const User_js_1 = __importDefault(require("../models/User.js"));
 const bcrypt_1 = require("bcrypt");
 const token_manager_js_1 = require("../utils/token-manager.js");
 const constants_js_1 = require("../utils/constants.js");
-const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || "localhost";
-const getAllUsers = async (req, res, next) => {
+const COOKIE_DOMAIN = process.env.NODE_ENV === "production" ? process.env.COOKIE_DOMAIN : "localhost";
+const getAllUsers = async (req, res) => {
     try {
         const users = await User_js_1.default.find().select("-password");
-        return res.status(200).json({ message: "Users fetched successfully", users });
+        res.status(200).json({ message: "Users fetched successfully", users });
     }
     catch (error) {
         console.error("❌ Error in getAllUsers:", error);
-        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 exports.getAllUsers = getAllUsers;
-const userSignup = async (req, res, next) => {
+const userSignup = async (req, res) => {
     try {
         const { name, email, password } = req.body;
-        if (!name || !email || !password) {
+        if (!name || !email || !password)
             return res.status(400).json({ message: "All fields are required" });
-        }
-        const existingUser = await User_js_1.default.findOne({ email });
-        if (existingUser) {
+        if (await User_js_1.default.findOne({ email }))
             return res.status(409).json({ message: "User already registered" });
-        }
         const hashedPassword = await (0, bcrypt_1.hash)(password, 10);
-        const user = new User_js_1.default({ name, email, password: hashedPassword });
-        await user.save();
+        const user = await new User_js_1.default({ name, email, password: hashedPassword }).save();
         const token = (0, token_manager_js_1.createToken)(user._id.toString(), user.email, "7d");
         res.cookie(constants_js_1.COOKIE_NAME, token, {
             path: "/",
             domain: COOKIE_DOMAIN,
             httpOnly: true,
             signed: true,
-            sameSite: "lax",
+            sameSite: "strict",
+            secure: process.env.NODE_ENV === "production",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
-        return res.status(201).json({ message: "User registered successfully", user: { name: user.name, email: user.email } });
+        res.status(201).json({ message: "User registered successfully", user: { name, email } });
     }
     catch (error) {
         console.error("❌ Error in userSignup:", error);
-        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 exports.userSignup = userSignup;
-const userLogin = async (req, res, next) => {
+const userLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        if (!email || !password) {
+        if (!email || !password)
             return res.status(400).json({ message: "Email and password are required" });
-        }
         const user = await User_js_1.default.findOne({ email });
-        if (!user) {
-            return res.status(401).json({ message: "User not registered" });
-        }
-        const isPasswordCorrect = await (0, bcrypt_1.compare)(password, user.password);
-        if (!isPasswordCorrect) {
-            return res.status(403).json({ message: "Incorrect password" });
-        }
+        if (!user || !(await (0, bcrypt_1.compare)(password, user.password)))
+            return res.status(401).json({ message: "Invalid credentials" });
         const token = (0, token_manager_js_1.createToken)(user._id.toString(), user.email, "7d");
         res.cookie(constants_js_1.COOKIE_NAME, token, {
             path: "/",
             domain: COOKIE_DOMAIN,
             httpOnly: true,
             signed: true,
-            sameSite: "lax",
+            sameSite: "strict",
+            secure: process.env.NODE_ENV === "production",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
-        return res.status(200).json({ message: "Login successful", user: { name: user.name, email: user.email } });
+        res.status(200).json({ message: "Login successful", user: { name: user.name, email } });
     }
     catch (error) {
         console.error("❌ Error in userLogin:", error);
-        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 exports.userLogin = userLogin;
-const verifyUser = async (req, res, next) => {
+const verifyUser = async (req, res) => {
     try {
-        const user = await User_js_1.default.findById(res.locals.jwtData.id).select("-password");
-        if (!user) {
+        const user = await User_js_1.default.findById(res.locals.jwtData?.id).select("-password");
+        if (!user)
             return res.status(401).json({ message: "User not found or token invalid" });
-        }
-        return res.status(200).json({ message: "User verified", user: { name: user.name, email: user.email } });
+        res.status(200).json({ message: "User verified", user: { name: user.name, email: user.email } });
     }
     catch (error) {
         console.error("❌ Error in verifyUser:", error);
-        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 exports.verifyUser = verifyUser;
-const userLogout = async (req, res, next) => {
+const userLogout = async (req, res) => {
     try {
         res.clearCookie(constants_js_1.COOKIE_NAME, {
             path: "/",
             domain: COOKIE_DOMAIN,
             httpOnly: true,
             signed: true,
-            sameSite: "lax",
+            sameSite: "strict",
+            secure: process.env.NODE_ENV === "production",
         });
-        return res.status(200).json({ message: "Logout successful" });
+        res.status(200).json({ message: "Logout successful" });
     }
     catch (error) {
         console.error("❌ Error in userLogout:", error);
-        return res.status(500).json({ message: "Internal Server Error", error: error.message });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 exports.userLogout = userLogout;
