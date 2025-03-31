@@ -16,7 +16,7 @@ const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
 // CORS Configuration (Allows frontend to communicate with backend)
 app.use((0, cors_1.default)({
-    origin: "https://alpha-bot-five.vercel.app", // Ensure frontend URL matches
+    origin: "http://localhost:5173", // Ensure frontend URL matches
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
