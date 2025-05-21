@@ -19,6 +19,7 @@ const Chat = () => {
   const [loading, setLoading] = useState(false);
   const [chatsLoaded, setChatsLoaded] = useState(false);
 
+
   useEffect(() => {
     if (!auth?.user) {
       navigate("/login");
