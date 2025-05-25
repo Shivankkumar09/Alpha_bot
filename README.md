@@ -130,6 +130,4 @@ GOOGLE_API_KEY=your_google_gemini_api_key
 
 ---
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
