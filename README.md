@@ -124,7 +124,6 @@ GOOGLE_API_KEY=your_google_gemini_api_key
 
 **Shivank Kumar**
 
-- [Portfolio](#)
 - [LinkedIn](https://www.linkedin.com/in/shivank-kumar-17a884254/)
 - [GitHub](https://github.com/Shivankkumar09)
 
