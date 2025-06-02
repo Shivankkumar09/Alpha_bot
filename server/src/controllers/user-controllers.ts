@@ -32,8 +32,8 @@ export const userSignup = async (req: Request, res: Response) => {
       domain: COOKIE_DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     
@@ -58,8 +58,8 @@ export const userLogin = async (req: Request, res: Response) => {
       domain: COOKIE_DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     
@@ -89,8 +89,8 @@ export const userLogout = async (req: Request, res: Response) => {
       domain: COOKIE_DOMAIN,
       httpOnly: true,
       signed: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      secure: true,
     });
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {

@@ -35,8 +35,8 @@ const userSignup = async (req, res) => {
             domain: COOKIE_DOMAIN,
             httpOnly: true,
             signed: true,
-            sameSite: "strict",
-            secure: process.env.NODE_ENV === "production",
+            sameSite: "none",
+            secure: true,
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         res.status(201).json({ message: "User registered successfully", user: { name, email } });
@@ -61,8 +61,8 @@ const userLogin = async (req, res) => {
             domain: COOKIE_DOMAIN,
             httpOnly: true,
             signed: true,
-            sameSite: "strict",
-            secure: process.env.NODE_ENV === "production",
+            sameSite: "none",
+            secure: true,
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         res.status(200).json({ message: "Login successful", user: { name: user.name, email } });
@@ -93,8 +93,8 @@ const userLogout = async (req, res) => {
             domain: COOKIE_DOMAIN,
             httpOnly: true,
             signed: true,
-            sameSite: "strict",
-            secure: process.env.NODE_ENV === "production",
+            sameSite: "none",
+            secure: true,
         });
         res.status(200).json({ message: "Logout successful" });
     }
