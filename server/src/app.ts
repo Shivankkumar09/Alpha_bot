@@ -18,7 +18,7 @@ app.use(helmet());
 // CORS Configuration (Allows frontend to communicate with backend)
 app.use(
   cors({
-    origin: ["http://localhost:5173"], // Ensure frontend URL matches
+    origin: [process.env.FRONTEND_URL || "http://localhost:5173"], // Ensure frontend URL matches
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],

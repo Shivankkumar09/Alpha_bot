@@ -8,7 +8,13 @@ import { AuthProvider } from "./context/AuthContext";
 import { ChatProvider } from "./context/ChatContext";
 
 // Setup Axios
-axios.defaults.baseURL = "http://localhost:3000/api/v1";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
+axios.defaults.baseURL = 
+  import.meta.env.MODE === 'development'
+    ? 'http://localhost:3000/api/v1'
+    : baseURL;
+    
 axios.defaults.withCredentials = true;
 
 
